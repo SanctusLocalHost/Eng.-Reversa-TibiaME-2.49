@@ -1,5 +1,7 @@
 # Eng. Reversa TibiaME 2.49
 
+<img width="240" height="240" alt="splashscreen_load_ui" src="https://github.com/user-attachments/assets/9a3ddfab-6a09-45cf-8832-c4cabeb9de4d" />
+
 Anotações, ferramentas e um motor em JavaScript para o **Tibia Micro Edition 2.49**. O jogo oficial guarda sprites, sons e textos numa pasta de dados no aparelho; este repositório documenta o que conseguimos decodificar desses arquivos e entrega um motor que roda direto no navegador, offline, lendo os assets que você já tem instalados.
 
 Aviso: projeto de fins educacionais. Nenhum arquivo do jogo está incluído aqui. Os assets ficam na sua instalação e pertencem aos seus donos; o código e a documentação deste repositório são MIT (veja o [LICENSE](LICENSE)).
