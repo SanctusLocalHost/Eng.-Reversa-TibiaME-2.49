@@ -1,0 +1,13 @@
+{
+  "name": "MUNDO DE BATALHA",
+  "short_name": "MdB",
+  "description": "TibiaME Engine Offline - PWA",
+  "start_url": ".",
+  "display": "fullscreen",
+  "background_color": "#000000",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "orientation": "portrait-primary"
+}

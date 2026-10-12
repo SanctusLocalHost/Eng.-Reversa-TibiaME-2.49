@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <title>MUNDO DE BATALHA — PWA Offline</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    #fs-overlay {
+      position: fixed; inset: 0; background: radial-gradient(circle at 50% 30%, #1a1a2e, #000 75%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 1000; color: #eee; font: 16px sans-serif; gap: 14px; text-align: center; padding: 20px;
+    }
+    #fs-overlay.hidden { display: none; }
+    #fs-overlay h2 { margin: 0 0 4px; font-size: 28px; letter-spacing: 2px; color: #d9c37a; }
+    .fs-btn { padding: 14px 34px; font-size: 17px; background: #2a6fdb; border: none; border-radius: 10px; color: white; cursor: pointer; box-shadow: 0 4px 16px rgba(42,111,219,.4); }
+    .fs-btn:hover { background: #3a7feb; }
+    .fs-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
+    .fs-btn.alt { background: #444; box-shadow: none; font-size: 15px; }
+    .fs-btn.alt:hover { background: #555; }
+    .fs-btn.rec { outline: 2px solid #d9c37a; }
+    #fs-overlay small { color: #888; max-width: 560px; line-height: 1.5; }
+    #fs-hint { display: none; color: #d9c37a; font-size: 14px; }
+    #err { position: fixed; top: 10%; left: 10%; width: 80%; color: #f66; background: rgba(0,0,0,0.85); padding: 16px; font: 13px/1.5 monospace; white-space: pre-wrap; z-index: 999; display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <pre id="err"></pre>
+
+  <!-- Overlay: selecionar a pasta do jogo -->
+  <div id="fs-overlay">
+    <h2>⚔️ MUNDO DE BATALHA</h2>
+    <p>PWA 100% offline — sem servidor.</p>
+
+    <button id="fs-btn" class="fs-btn">📁 Escolher Pasta do Jogo</button>
+
+    <button id="files-btn" class="fs-btn alt">📂 Selecionar pasta (modo compatível)</button>
+    <input id="files-input" type="file" webkitdirectory directory multiple style="display:none">
+
+    <div id="fs-hint">Aguardando seleção da pasta…</div>
+    <small>
+      Selecione a pasta <strong>MUNDO DE BATALHA</strong> (a que contém pack1, pack2, …).<br>
+      <b>Brave/Firefox/Safari:</b> use o botão “modo compatível”. &nbsp;
+      <b>Sem nenhum dos dois?</b> rode <code>python3 server.py</code> e abra <code>http://localhost:8000/web/</code>.
+    </small>
+  </div>
+
+  <script>
+    // Registra Service Worker (apenas quando servido via http/https)
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+
+    let GAME_ROOT = null; // FileSystemDirectoryHandle
+    window.getGameRoot = () => GAME_ROOT;
+
+    const btnFS = document.getElementById('fs-btn');
+    const btnFiles = document.getElementById('files-btn');
+    const inputFiles = document.getElementById('files-input');
+
+    const showOverlayError = (msg) => {
+      const hint = document.getElementById('fs-hint');
+      hint.style.display = 'block';
+      hint.textContent = msg;
+    };
+
+    // --- Opção 1: File System Access API (Chrome/Edge/Opera; alguns bloqueiam no Brave) ---
+    const hasFS = 'showDirectoryPicker' in window;
+    if (!hasFS) {
+      btnFS.style.display = 'none';
+      btnFiles.classList.add('rec');
+    }
+
+    btnFS.addEventListener('click', async () => {
+      if (!hasFS) return;
+      try {
+        btnFS.disabled = true;
+        btnFS.textContent = 'Selecionando…';
+        GAME_ROOT = await window.showDirectoryPicker({ mode: 'read' });
+        let hasPacks = false;
+        for await (const entry of GAME_ROOT.values()) {
+          if (/^pack\d+$/.test(entry.name)) { hasPacks = true; break; }
+        }
+        if (!hasPacks) {
+          GAME_ROOT = null;
+          showOverlayError('Pasta inválida: não encontrei pack1, pack2, … Selecione a pasta que contém os packs.');
+          btnFS.disabled = false;
+          btnFS.textContent = '📁 Escolher Pasta do Jogo';
+          return;
+        }
+        if ('storage' in navigator && navigator.storage.persist) {
+          try { await navigator.storage.persist(); } catch (_) {}
+        }
+        await window.app.boot();
+      } catch (e) {
+        if (e.name === 'AbortError') {
+          btnFS.disabled = false;
+          btnFS.textContent = '📁 Escolher Pasta do Jogo';
+          return;
+        }
+        // Brave às vezes expõe a API mas bloqueia: cai no modo compatível
+        console.warn('FS API indisponível:', e.message);
+        btnFS.style.display = 'none';
+        btnFiles.classList.add('rec');
+        showOverlayError('Este navegador bloqueou a API de pastas. Use o botão "modo compatível" acima.');
+      }
+    });
+
+    // --- Opção 2: <input webkitdirectory> (funciona em TODOS: Brave, Firefox, Safari) ---
+    btnFiles.addEventListener('click', () => inputFiles.click());
+
+    inputFiles.addEventListener('change', async () => {
+      if (!inputFiles.files || !inputFiles.files.length) return;
+      const ok = window.initLoaderFromFileList
+        ? window.initLoaderFromFileList(inputFiles.files)
+        : false;
+      if (!ok) {
+        showOverlayError('Não encontrei pack1, pack2… dentro da pasta selecionada. Selecione a pasta MUNDO DE BATALHA.');
+        return;
+      }
+      showOverlayError(`Pasta indexada (${inputFiles.files.length} arquivos). Carregando…`);
+      await window.app.boot();
+    });
+  </script>
+
+  <!-- Bundle único (roda direto do file:// sem módulos ES) -->
+  <script src="./bundle.js"></script>
+</body>
+</html>

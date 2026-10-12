@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navegador de Sprites — MUNDO DE BATALHA</title>
+  <style>
+    body { font: 13px sans-serif; background: #111; color: #ddd; margin: 0; }
+    header { padding: 8px 12px; background: #1c1c1c; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; }
+    header label { color: #999; }
+    select, input, button { background: #222; color: #eee; border: 1px solid #444; padding: 4px 8px; border-radius: 4px; }
+    #grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; }
+    .cell { width: 130px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; overflow: hidden; cursor: pointer; }
+    .cell:hover { border-color: #7af; }
+    .cell canvas { display: block; margin: 0 auto; background: repeating-conic-gradient(#222 0% 25%, #2c2c2c 0% 50%) 0 0/20px 20px; }
+    .cell .info { padding: 3px 6px; font-size: 11px; color: #aaa; text-align: center; }
+    .cell.sel { border-color: #ffd700; }
+    #detail { position: fixed; right: 10px; top: 56px; width: 220px; background: #1c1c1c; border: 1px solid #555; border-radius: 6px; padding: 10px; }
+    #detail canvas { background: repeating-conic-gradient(#222 0% 25%, #2c2c2c 0% 50%) 0 0/20px 20px; }
+    #status { position: fixed; bottom: 6px; left: 10px; color: #888; font-size: 11px; }
+    #pick { position: fixed; inset: 0; background: rgba(0,0,0,.9); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 50; color: #eee; }
+    #pick button { padding: 12px 28px; font-size: 16px; background: #2a6fdb; border: none; border-radius: 8px; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <label>Pack:
+      <select id="pack">
+        <option value="2">pack2 (382)</option>
+        <option value="10" selected>pack10 (2748)</option>
+        <option value="11">pack11 (3120)</option>
+        <option value="20">pack20</option>
+        <option value="21">pack21</option>
+        <option value="22">pack22</option>
+        <option value="23">pack23</option>
+        <option value="24">pack24</option>
+        <option value="25">pack25</option>
+        <option value="26">pack26</option>
+        <option value="27">pack27</option>
+        <option value="30">pack30</option>
+      </select>
+    </label>
+    <label>ID: <input id="idFilter" type="number" placeholder="buscar id"></label>
+    <label>Larg. min: <input id="wMin" type="number" style="width:56px"></label>
+    <label>Alt. min: <input id="hMin" type="number" style="width:56px"></label>
+    <label><input id="tilesOnly" type="checkbox"> só tiles 63×63</label>
+    <button id="apply">Aplicar</button>
+    <span id="count" style="color:#888"></span>
+  </header>
+  <div id="grid"></div>
+  <div id="detail" style="display:none">
+    <canvas id="detailCanvas" width="200" height="200"></canvas>
+    <div id="detailInfo" style="font-size:12px;color:#ccc"></div>
+    <div style="margin-top:6px;font-size:11px;color:#999">
+      Use o ID no <b>web/data/world.json</b> (ground/objects/creatures).
+    </div>
+  </div>
+  <div id="status">carregando…</div>
+
+  <div id="pick">
+    <h2>⚔️ Navegador de Sprites</h2>
+    <p>Selecione a pasta <b>MUNDO DE BATALHA</b> (que contém pack1, pack2, …)</p>
+    <button id="pickBtn">📁 Escolher Pasta do Jogo</button>
+    <button id="pickFilesBtn" style="background:#444">📂 Selecionar pasta (modo compatível — Brave/Firefox/Safari)</button>
+    <input id="pickFilesInput" type="file" webkitdirectory directory multiple style="display:none">
+    <small style="color:#888">Ou rode <code>python3 server.py</code> e abra via http</small>
+  </div>
+
+  <script src="../bundle-core.js"></script>
+  <script>
+    const { AtlasDB } = window.MDB;
+    const db = new AtlasDB();
+    const grid = document.getElementById('grid');
+    const detail = document.getElementById('detail');
+    const detailCanvas = document.getElementById('detailCanvas');
+    const detailInfo = document.getElementById('detailInfo');
+    const status = document.getElementById('status');
+    let currentPack = 10;
+    let selected = null;
+
+    async function ensureRoot() {
+      const has = await window.MDB.initLoader();
+      if (has) { document.getElementById('pick').style.display = 'none'; return true; }
+      if (location.protocol === 'file:' ) {
+        // se não há API de pasta, esconde o botão principal
+        if (!('showDirectoryPicker' in window)) {
+          document.getElementById('pickBtn').style.display = 'none';
+        }
+        document.getElementById('pick').style.display = 'flex';
+        return false;
+      }
+      // modo servidor
+      document.getElementById('pick').style.display = 'none';
+      return true;
+    }
+
+    document.getElementById('pickBtn').addEventListener('click', async () => {
+      try {
+        const handle = await window.showDirectoryPicker({ mode: 'read' });
+        let hasPacks = false;
+        for await (const entry of handle.values()) {
+          if (/^pack\d+$/.test(entry.name)) { hasPacks = true; break; }
+        }
+        if (!hasPacks) { alert('Pasta inválida: sem pack1, pack2…'); return; }
+        window.getGameRoot = () => handle;
+        await window.MDB.initLoader();
+        document.getElementById('pick').style.display = 'none';
+        renderPack();
+      } catch (e) {
+        if (e.name !== 'AbortError') console.error(e);
+      }
+    });
+
+    document.getElementById('pickFilesBtn').addEventListener('click', () => {
+      document.getElementById('pickFilesInput').click();
+    });
+    document.getElementById('pickFilesInput').addEventListener('change', async (e) => {
+      if (!e.target.files.length) return;
+      const ok = window.MDB.initLoaderFromFileList(e.target.files);
+      if (!ok) { alert('Não encontrei pack1, pack2… na pasta selecionada.'); return; }
+      document.getElementById('pick').style.display = 'none';
+      renderPack();
+    });
+
+    async function renderPack() {
+      grid.innerHTML = '';
+      status.textContent = `carregando pack${currentPack}…`;
+      try {
+        await db.loadPack(currentPack);
+      } catch (e) {
+        status.textContent = 'Erro ao carregar: ' + e.message;
+        return;
+      }
+      const wMin = Number(document.getElementById('wMin').value) || 0;
+      const hMin = Number(document.getElementById('hMin').value) || 0;
+      const idF = Number(document.getElementById('idFilter').value);
+      const tilesOnly = document.getElementById('tilesOnly').checked;
+      let ids = db.idsOfPack(currentPack);
+      const metas = ids.map(id => db.get(id));
+      if (wMin || hMin || tilesOnly) {
+        ids = metas.filter(s => (!tilesOnly || (s.s[0] === 63 && s.s[1] === 63)) && s.s[0] >= wMin && s.s[1] >= hMin).map(s => s.id);
+      }
+      if (idF) ids = ids.filter(id => Math.abs(id - idF) < 100);
+      document.getElementById('count').textContent = `${ids.length} sprites`;
+      const frag = document.createDocumentFragment();
+      for (const id of ids) frag.appendChild(await makeCell(id));
+      grid.appendChild(frag);
+      status.textContent = `pack${currentPack}: ${ids.length} sprites mostrados`;
+    }
+
+    async function makeCell(id) {
+      const s = db.get(id);
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.id = id;
+      const cv = document.createElement('canvas');
+      const scale = s.s[0] > 100 || s.s[1] > 100 ? 0.7 : 1;
+      cv.width = Math.max(8, s.s[0]) * scale;
+      cv.height = Math.max(8, s.s[1]) * scale;
+      const c = cv.getContext('2d');
+      const img = await db.texture(s.tex);
+      const la = s.texFile.endsWith('.2.png');
+      c.drawImage(img, s.p[0], s.p[1], s.s[0], s.s[1], 0, 0, cv.width, cv.height);
+      if (la) {
+        const d = c.getImageData(0, 0, cv.width, cv.height);
+        for (let i = 0; i < d.data.length; i += 4) {
+          const lum = d.data[i] / 255;
+          d.data[i] = lum * 120; d.data[i + 1] = lum * 200; d.data[i + 2] = lum * 100;
+        }
+        c.putImageData(d, 0, 0);
+      }
+      cell.appendChild(cv);
+      const info = document.createElement('div');
+      info.className = 'info';
+      info.textContent = `#${id} ${s.s[0]}×${s.s[1]}${la ? ' LA' : ''}`;
+      cell.appendChild(info);
+      cell.onclick = () => select(id);
+      return cell;
+    }
+
+    async function select(id) {
+      selected = id;
+      document.querySelectorAll('.cell').forEach(el => el.classList.remove('sel'));
+      const el = document.querySelector(`.cell[data-id="${id}"]`);
+      if (el) el.classList.add('sel');
+      const s = db.get(id);
+      const img = await db.texture(s.tex);
+      const c = detailCanvas.getContext('2d');
+      c.clearRect(0, 0, 200, 200);
+      const scale = Math.min(1, 180 / Math.max(s.s[0], s.s[1]));
+      c.drawImage(img, s.p[0], s.p[1], s.s[0], s.s[1],
+        (200 - s.s[0] * scale) / 2, (200 - s.s[1] * scale) / 2, s.s[0] * scale, s.s[1] * scale);
+      detail.style.display = 'block';
+      detailInfo.innerHTML =
+        `<b>ID:</b> ${id}<br>` +
+        `<b>Size:</b> ${s.s[0]}×${s.s[1]}<br>` +
+        `<b>Offset:</b> ${s.o[0]},${s.o[1]}<br>` +
+        `<b>Textura:</b> ${s.tex}<br>` +
+        `<b>Modo:</b> ${s.texFile.endsWith('.2.png') ? 'LA (colorizável)' : 'RGBA'}<br>` +
+        `<b>Pack:</b> ${s.pack}<br>` +
+        `<b>Ancoragem:</b> base=${(s.o[0] + s.s[0] / 2).toFixed(1)},${(s.o[1] + s.s[1]).toFixed(1)} (tile 63)`;
+    }
+
+    document.getElementById('pack').onchange = (e) => { currentPack = Number(e.target.value); renderPack(); };
+    document.getElementById('apply').onclick = () => renderPack();
+
+    (async () => {
+      const ready = await ensureRoot();
+      if (ready) renderPack();
+    })();
+  </script>
+</body>
+</html>

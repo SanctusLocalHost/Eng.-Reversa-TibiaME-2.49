@@ -1,0 +1,40 @@
+# =====================================================================
+# .gitignore — MUNDO DE BATALHA / Eng. Reversa TibiaME
+# =====================================================================
+# REGRA DE OURO: NUNCA comitar assets do jogo (© CipSoft GmbH).
+# Este repositório contém apenas código e documentação originais.
+
+# --- Assets e dados do cliente oficial (packs baixados) ---
+pack[0-9]*/
+settings.xml
+settings.dat
+assets_date
+splashscreen_load_ui.png
+logfile.xml
+logfile.last.xml
+logfilesender.xml
+.nomedia
+
+# --- Qualquer binário de jogo / extração ---
+*.apk
+*.so
+*.dex
+*.smali
+apk_extracted/
+files/
+
+# --- Temporários / sistema ---
+*.log
+*.tmp
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+node_modules/
+
+# --- Previews gerados pelas ferramentas (contêm assets!) ---
+preview*.png
+conferir*.png
+/node_modules/
