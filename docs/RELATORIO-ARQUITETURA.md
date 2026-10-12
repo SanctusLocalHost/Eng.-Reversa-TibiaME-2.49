@@ -1,8 +1,8 @@
-# 🗺️ MUNDO DE BATALHA — Relatório de Engenharia Reversa Completa
+# MUNDO DE BATALHA — Relatório de Engenharia Reversa Completa
 
-> **Identificação:** Este diretório contém os **dados extraídos do cliente Android de TibiaME (Tibia Micro Edition) v2.49**, o MMO RPG da CipSoft GmbH.
-> Origem no dispositivo: `/storage/emulated/0/Download/com.cipsoft.tibiame/files` (pacote do jogo: `com.cipsoft.tibiame`).
-> ⚠️ **Todos os assets são © CipSoft GmbH.** Este relatório e a versão HTML são para uso pessoal/educacional com seus próprios arquivos extraídos.
+> **Identificação:** Este diretório contém os **dados extraídos do cliente Android de Tibia Micro Edition 2.49**, um MMO RPG mobile.
+> Origem: pasta `files/` do aplicativo no Android (cópia pessoal dos packs baixados pelo jogo).
+> Os assets do jogo pertencem aos seus respectivos donos e não fazem parte deste material.
 
 ---
 
@@ -23,8 +23,8 @@
 │  • logfile*.xml   → log + envio de crash report                 │
 ├─────────────────────────────────────────────────────────────────┤
 │  Camada de REDE (cliente-servidor)                              │
-│  • Login: login01-04.tibiame.com / tibiame01-04.cipsoft.com     │
-│  • Game:   gameserver <IP-do-servidor>:9191 (TCP)                   │
+│  • Login: login01-04.tibiame.com (+ réplicas)                   │
+│  • Game:   gameserver <IP-do-servidor>:9191 (TCP)               │
 │  • Crash reports: www.tibiame.com/errorlog.php                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -47,7 +47,7 @@
 | `pack10,11,20–27/` | Atlas de sprites do mundo: chão, paredes, objetos, criaturas, itens, efeitos (**12.238 sprites no total**) |
 | `pack30/` | 56 tiles especiais 63×63 (mapa-múndi/minimapa) |
 | `settings.xml` | Preferências: idioma, volume, zoom, keybindings, personagens salvos, quickLoad |
-| `settings.dat` | Binário: servidores de login (tibiame01-04.cipsoft.com etc.) |
+| `settings.dat` | Binário: servidores de login (login01-04.tibiame.com e réplicas) |
 | `logfile*.xml` | Log de execução + configuração de envio de erro |
 | `splashscreen_load_ui.png` | Tela de carregamento (240×240) |
 | `assets_date` | Data de versão dos assets (2024-07-10) |
@@ -85,13 +85,13 @@ Cada pack `N` contém `N.xml` + arquivos `atlas_X.Y.png` (256×256):
 - **Célula do tile = 63×63 px.**
 - O sprite é desenhado em `(tile.x*63 + o.x, tile.y*63 + o.y)`.
 - A convenção: **centro-base do sprite ancorado no centro-base do tile**:
-  - `o.x + w/2 ≈ 31.5` (centralizado horizontalmente)
-  - `o.y + h ≈ 63` (pés apoiados na base do tile)
+ - `o.x + w/2 ≈ 31.5` (centralizado horizontalmente)
+ - `o.y + h ≈ 63` (pés apoiados na base do tile)
 - Exemplos reais:
-  - chão 63×63 → `o=0,0` (preenche a célula)
-  - objeto 59×59 → `o=2,2` (centralizado)
-  - árvore 13×46 → `o=27,4` (27 = 31.5−13/2; 4 = 63−46−13? não: base do tronco)
-  - efeito 126×126 → `o=−32,−32` (centralizado sobre 2×2 tiles)
+ - chão 63×63 → `o=0,0` (preenche a célula)
+ - objeto 59×59 → `o=2,2` (centralizado)
+ - árvore 13×46 → `o=27,4` (27 = 31.5−13/2; 4 = 63−46−13? não: base do tronco)
+ - efeito 126×126 → `o=−32,−32` (centralizado sobre 2×2 tiles)
 
 ### Sufixos `.2` e `.4` das texturas
 - `atlas_X.2.png` → **modo LA** (Luminância+Alfa) = sprite **colorizável** (roupas, cabelo, tintas de outfit)
@@ -193,9 +193,9 @@ file.png,0,94,0,2*94,94;scaleType:multipleCenter
 
 ```xml
 <trans-unit approved="yes" id="id_about" maxwidth="20" size-unit="char">
-  <source xml:lang="en">About TibiaME</source>
+  <source xml:lang="en">About Tibia Micro Edition</source>
   <note from="developer">This is in the main menu</note>
-  <target state="final" xml:lang="pt">Sobre o TibiaME</target>
+  <target state="final" xml:lang="pt">Sobre o Tibia Micro Edition</target>
 </trans-unit>
 ```
 - 330 strings por idioma; ids `id_*` são referenciados nos XMLs de UI (`text="id_about"`) e no código nativo.
@@ -211,7 +211,7 @@ file.png,0,94,0,2*94,94;scaleType:multipleCenter
 - `consentMode`, `autologout`, `powersaving`, `analogstick`, `flipH`…
 
 ### settings.dat (binário)
-Cabeçalho com contadores + **strings de servidores de login em texto plano** (`login01.tibiame.com`, `tibiame01.cipsoft.com`, …).
+Cabeçalho com contadores + **strings de servidores de login em texto plano** (`login01.tibiame.com`, …).
 
 ### dictionary.dat (pack3)
 - 4 bytes iniciais: `uint32 LE = 1598` (contagem)
@@ -222,7 +222,7 @@ Cabeçalho com contadores + **strings de servidores de login em texto plano** (`
 
 ## 8. REDE E PROTOCOLO (o que se sabe dos arquivos)
 
-- Login: `login01–04.tibiame.com` / `tibiame01–04.cipsoft.com`
+- Login: `login01–04.tibiame.com` (e réplicas)
 - Gameserver: `<IP-do-servidor>:9191` (TCP)
 - O protocolo é binário proprietário: login → lista de personagens → world info (sprites por ID + mapa por pacotes). **Não é necessário replicá-lo na versão offline.**
 

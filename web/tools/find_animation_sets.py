@@ -39,7 +39,7 @@ def load_sprites(packs):
 
 
 def main():
-    ap = argparse.ArgumentParser(description='Sequências candidatas a animação (atlas TibiaME)')
+    ap = argparse.ArgumentParser(description='Sequências candidatas a animação (atlas Tibia Micro Edition)')
     ap.add_argument('--pack', type=int, default=None)
     ap.add_argument('--min', type=int, default=2, help='mínimo de frames por sequência')
     ap.add_argument('--gap', type=int, default=20, help='distância máxima entre IDs vizinhos')

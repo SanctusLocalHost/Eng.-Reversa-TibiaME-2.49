@@ -186,7 +186,7 @@ async function loadAudioBuffer(path, ctx) {
   throw new Error(`Áudio não encontrado: ${path} (${lastErr?.message || ''})`);
 }
 
-// Sanitiza XML com atributos duplicados (os dados reais do TibiaME têm)
+// Sanitiza XML com atributos duplicados (os dados reais do jogo têm)
 function sanitizeXML(text) {
   let t = text.replace(/^\uFEFF/, '');
   return t.replace(/<[^>]*>/g, (tag) => {
@@ -1832,7 +1832,7 @@ class App {
     const sub = new LabelWidget(ui, {
       id: 'SUB', size: [100, 8], sizeType: ['relative', 'relative'],
       alignH: 'center', alignV: 'top', offset: [0, 20], offsetType: ['relative', 'relative'],
-      text: 'PWA Offline v0.2 — engine TibiaME', fontSize: 11, layer: 2,
+      text: 'PWA Offline v0.2 — engine Tibia Micro Edition', fontSize: 11, layer: 2,
     });
     menu.addChild(sub);
 
@@ -1897,7 +1897,7 @@ class App {
       body.text = `${this.i18n.t('id_ambient_volume')}: 100\n${this.i18n.t('id_sound_effect_volume')}: 100\n${this.i18n.t('id_gameviewzoommode')}: ${this.game ? this.game.zoomLabel() : '100%'}\n${this.i18n.t('id_language')}: Português (pt)`;
       mkBtn('DLG_BACK', 'id_back', 31, 82, () => this.closeDialog());
     } else if (kind === 'about') {
-      body.text = `MUNDO DE BATALHA\n\n${this.i18n.t('id_version_major_d_minor_d_text_s', 2, 49, 'PWA HTML Offline')}\n\nEngenharia reversa do cliente TibiaME v2.49\nAssets © CipSoft GmbH — uso pessoal/educacional\n\n${this.i18n.t('id_copyright_notice')}`;
+      body.text = `MUNDO DE BATALHA\n\n${this.i18n.t('id_version_major_d_minor_d_text_s', 2, 49, 'PWA HTML Offline')}\n\nEngenharia reversa do cliente Tibia Micro Edition v2.49\nProjeto educacional — assets não redistribuídos\n\n${this.i18n.t('id_copyright_notice')}`;
       mkBtn('DLG_BACK', 'id_back', 31, 82, () => this.closeDialog());
     } else if (kind === 'exit') {
       body.text = `${this.i18n.t('id_sure_header')}\n\n${this.i18n.t('id_sure_save_and_logout_text')}`;

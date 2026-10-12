@@ -84,7 +84,7 @@ global.MDB = {
     with open(outpath, 'w', encoding='utf-8') as f:
         f.write('\n'.join(parts))
     size = os.path.getsize(outpath)
-    print(f'✓ {outpath} ({size/1024:.1f} KB)')
+    print(f'[ok] {outpath} ({size/1024:.1f} KB)')
 
 
 if __name__ == '__main__':

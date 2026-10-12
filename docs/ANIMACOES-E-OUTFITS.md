@@ -1,4 +1,4 @@
-# 🧍 Personagens, Outfits e Animações — TibiaME 2.49
+# Personagens, Outfits e Animações — Tibia Micro Edition 2.49
 
 > Documento de engenharia reversa sobre o sistema de personagens.
 > Status: **parcialmente confirmado** — o que é inferido está marcado como (inferência).
@@ -9,7 +9,7 @@
 
 ### 1.1 Dois modos de textura de sprites
 - `atlas_X.2.png` → **LA (Luminância + Alfa)**: sprites *colorizáveis* (peças de
-  outfit, cabelo, roupas). O cliente aplica cor em tempo real: `cor_final = tint × luminância`.
+ outfit, cabelo, roupas). O cliente aplica cor em tempo real: `cor_final = tint × luminância`.
 - `atlas_X.4.png` → **RGBA**: sprites coloridos fixos (monstros, NPCs, objetos).
 
 ### 1.2 A string de outfit em `settings.xml`
@@ -43,9 +43,9 @@ Parse estrutural (separadores `;`):
 ```
 - O formato **suporta múltiplos frames** por sprite (`frame="0"`, `"1"`, …).
 - **Todos os dados atuais usam `frame="0"`** → as animações de personagens no
-  cliente 2.49 provavelmente são **sequências de IDs de sprite** (não frames de
-  textura). Animação multi-frame de textura existe no formato para efeitos
-  (ex.: água), mas não está presente nestes packs.
+ cliente 2.49 provavelmente são **sequências de IDs de sprite** (não frames de
+ textura). Animação multi-frame de textura existe no formato para efeitos
+ (ex.: água), mas não está presente nestes packs.
 
 ### 1.4 Candidatos a sequências de animação (evidência real)
 Sprites com **mesma dimensão e mesma âncora** e IDs próximos são os candidatos
@@ -118,8 +118,8 @@ const frame = frames[Math.floor(walkT * frames.length)];
 await atlas.draw(ctx, frame, x, y, zoom);
 ```
 3. Direções: por enquanto espelhe horizontalmente (`ctx.scale(-1,1)`) se a
-   sequência só tiver uma direção — o cliente usa `handleFlipH="true"`
-   (confirmado no `FRM_VIEWAREA` do `ui_base.xml`).
+ sequência só tiver uma direção — o cliente usa `handleFlipH="true"`
+ (confirmado no `FRM_VIEWAREA` do `ui_base.xml`).
 
 ---
 

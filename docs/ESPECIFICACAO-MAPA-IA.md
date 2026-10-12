@@ -1,4 +1,4 @@
-# 📐 ESPECIFICAÇÃO — CONVERTER IMAGEM DE MAPA → `world.json` (para IA de visão)
+# ESPECIFICAÇÃO — CONVERTER IMAGEM DE MAPA → `world.json` (para IA de visão)
 
 > Este documento define **exatamente como o motor entende um mapa** e contém um
 > **PROMPT PRONTO** (seção 5) para você enviar a outra IA junto com a imagem do mapa.
@@ -9,7 +9,7 @@
 ## 1. Como o motor entende um mapa
 
 ```
-• Grade de células de 63 × 63 pixels (tile size nativo do TibiaME, zoom 100%)
+• Grade de células de 63 × 63 pixels (tile size nativo do Tibia Micro Edition, zoom 100%)
 • Coordenadas:  x = coluna (0 = esquerda → direita)
                 y = linha  (0 = TOPO   → baixo)
 • Cada célula tem:
@@ -21,8 +21,8 @@
 • spawn = célula onde o jogador nasce (precisa ser andável)
 ```
 
-Dimensões: `width  = largura_da_imagem_em_px  ÷ 63`
-           `height = altura_da_imagem_em_px   ÷ 63`  (sempre arredondando para baixo)
+Dimensões: `width = largura_da_imagem_em_px ÷ 63`
+ `height = altura_da_imagem_em_px ÷ 63` (sempre arredondando para baixo)
 
 ---
 
@@ -64,17 +64,17 @@ Regras de consistência obrigatórias:
 
 | ID | Tipo | Aparência | Andável | Pack |
 |----|------|-----------|---------|------|
-| **1** | chão | Grama verde com tufos | ✅ sim | 10 |
-| **2** | chão | Terra escura/grama seca | ✅ sim | 10 |
-| **4** | chão | Areia clara com manchas escuras | ✅ sim | 10 |
-| **6** | chão | Pedra clara (rocha lisa) | ✅ sim | 10 |
-| **49** | chão | Água azul com ondas | ❌ não | 10 |
-| **3** | chão | Caminho com cantos (transição) | ✅ sim | 10 |
-| 114 | objeto | Árvore frondosa (copa redonda) | ❌ blocker | 2 |
-| 115 | objeto | Árvore frondosa variante 2 | ❌ blocker | 2 |
-| 116 | objeto | Árvore alta/estreita | ❌ blocker | 2 |
-| 117 | objeto | Árvore robusta (copa larga) | ❌ blocker | 2 |
-| 40 | objeto | Encosta/paredão rochoso | ❌ blocker | 2 |
+| **1** | chão | Grama verde com tufos | sim | 10 |
+| **2** | chão | Terra escura/grama seca | sim | 10 |
+| **4** | chão | Areia clara com manchas escuras | sim | 10 |
+| **6** | chão | Pedra clara (rocha lisa) | sim | 10 |
+| **49** | chão | Água azul com ondas | não | 10 |
+| **3** | chão | Caminho com cantos (transição) | sim | 10 |
+| 114 | objeto | Árvore frondosa (copa redonda) | não blocker | 2 |
+| 115 | objeto | Árvore frondosa variante 2 | não blocker | 2 |
+| 116 | objeto | Árvore alta/estreita | não blocker | 2 |
+| 117 | objeto | Árvore robusta (copa larga) | não blocker | 2 |
+| 40 | objeto | Encosta/paredão rochoso | não blocker | 2 |
 | 27 | criatura | Monstro grande com arma | — | 20 |
 | 111 | criatura | Guardião vegetal (treant) | — | 20 |
 | 112 | criatura | Fera quadrúpede | — | 20 |
@@ -100,10 +100,10 @@ Se a imagem for um screenshot grande, **divida em pedaços com sobreposição de
 
 ---
 
-## 5. 🤖 PROMPT PRONTO — copie daqui até o fim do bloco e cole na outra IA
+## 5. PROMPT PRONTO — copie daqui até o fim do bloco e cole na outra IA
 
 ```text
-Você é um conversor de imagens de mapa do jogo TibiaME para o formato world.json.
+Você é um conversor de imagens de mapa do jogo Tibia Micro Edition para o formato world.json.
 Vou te enviar uma imagem renderizada de um mapa em visão aérea, com tiles de
 63×63 pixels na tela. Sua tarefa é converter a imagem inteira em UM JSON válido.
 
@@ -166,9 +166,9 @@ VERIFICAÇÕES FINAIS OBRIGATÓRIAS (faça antes de responder):
 
 ---
 
-## 6. ⚠️ MINIMAPAS (imagens reduzidas) — NÃO peça os números à IA!
+## 6. Atenção: MINIMAPAS (imagens reduzidas) — NÃO peça os números à IA!
 
-Minimapas do TibiaME são imagens **reduzidas** (ex.: ~3 px por tile). Um mapa
+Minimapas do Tibia Micro Edition são imagens **reduzidas** (ex.: ~3 px por tile). Um mapa
 real tem ~200×200 tiles = **40.000+ números** — nenhuma IA de texto devolve isso
 com precisão (limite de tokens + erros de contagem). Para minimapas use o
 **conversor local**:
@@ -188,14 +188,14 @@ python3 web/tools/validate_world.py web/data/world.json
 
 O que o conversor faz:
 - Lê cada célula `--cell N` px, tira a cor média do centro e classifica pela
-  paleta (água/grama/floresta/areia/pedra/caminho) → IDs 49/1/…/6/3
+ paleta (água/grama/floresta/areia/pedra/caminho) → IDs 49/1/…/6/3
 - `--trees`: manchas verde-escuras (floresta) viram **árvores (114-117)** com
-  chão de grama por baixo
+ chão de grama por baixo
 - `--smooth`: filtro de maioria 3×3 (remove ruído/pixels soltos)
 - `--preview`: gera imagem lado-a-lado para você CONFERIR visualmente
 - Escolhe spawn automaticamente no centro andável mais próximo
 - Se as cores do seu minimapa forem diferentes, edite a `PALETTE` no topo do
-  script (formato: `(r, g, b, id, categoria)`)
+ script (formato: `(r, g, b, id, categoria)`)
 
 **Papel correto da IA no fluxo de minimapa:** peça a ela apenas a **legenda**
 ("quais cores você vê e o que significam? qual o tamanho em pixels do bloco de

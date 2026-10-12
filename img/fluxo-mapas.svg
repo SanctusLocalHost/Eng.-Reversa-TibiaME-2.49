@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect width="920" height="470" fill="#f6f8fa"/>
+  <text x="30" y="44" font-size="20" font-weight="700" fill="#24292f">Dois caminhos para transformar imagem em mapa jogável</text>
+
+  <!-- Caminho 1: minimapa -->
+  <rect x="30" y="70" width="860" height="160" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="2"/>
+  <text x="50" y="98" font-size="14" font-weight="700" fill="#1a7f37">Minimapa reduzido (cerca de 3 px por tile)</text>
+
+  <rect x="50" y="115" width="150" height="64" rx="6" fill="#dafbe1"/>
+  <text x="64" y="141" font-size="12" fill="#24292f">imagem do</text>
+  <text x="64" y="157" font-size="12" fill="#24292f">minimapa</text>
+  <text x="64" y="173" font-size="11" fill="#57606a">PNG, sem UI</text>
+
+  <line x1="208" y1="147" x2="248" y2="147" stroke="#1a7f37" stroke-width="2"/>
+  <polygon points="248,141 262,147 248,153" fill="#1a7f37"/>
+
+  <rect x="270" y="115" width="220" height="64" rx="6" fill="#dafbe1"/>
+  <text x="284" y="137" font-size="12" fill="#24292f">minimap_to_world.py</text>
+  <text x="284" y="153" font-size="11" fill="#57606a">--auto --trees --preview</text>
+  <text x="284" y="169" font-size="11" fill="#57606a">roda local, em segundos</text>
+
+  <line x1="498" y1="147" x2="538" y2="147" stroke="#1a7f37" stroke-width="2"/>
+  <polygon points="538,141 552,147 538,153" fill="#1a7f37"/>
+
+  <rect x="560" y="115" width="140" height="64" rx="6" fill="#dafbe1"/>
+  <text x="574" y="141" font-size="12" fill="#24292f">world.json</text>
+  <text x="574" y="157" font-size="11" fill="#57606a">grade completa</text>
+
+  <line x1="708" y1="147" x2="748" y2="147" stroke="#1a7f37" stroke-width="2"/>
+  <polygon points="748,141 762,147 748,153" fill="#1a7f37"/>
+
+  <rect x="770" y="115" width="100" height="64" rx="6" fill="#dafbe1"/>
+  <text x="784" y="141" font-size="12" fill="#24292f">validar e</text>
+  <text x="784" y="157" font-size="12" fill="#24292f">jogar</text>
+
+  <text x="50" y="208" font-size="11" fill="#57606a">O script classifica a cor de cada célula (água, grama, areia, pedra...), detecta o tamanho da célula e gera um preview para conferência.</text>
+
+  <!-- Caminho 2: screenshot -->
+  <rect x="30" y="250" width="860" height="160" rx="10" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+  <text x="50" y="278" font-size="14" font-weight="700" fill="#0969da">Screenshot em escala nativa (63 px por tile)</text>
+
+  <rect x="50" y="295" width="150" height="64" rx="6" fill="#ddf4ff"/>
+  <text x="64" y="321" font-size="12" fill="#24292f">print do mapa</text>
+  <text x="64" y="337" font-size="11" fill="#57606a">sem HUD, 63 px</text>
+  <text x="64" y="353" font-size="11" fill="#57606a">múltiplo de 63</text>
+
+  <line x1="208" y1="327" x2="248" y2="327" stroke="#0969da" stroke-width="2"/>
+  <polygon points="248,321 262,327 248,333" fill="#0969da"/>
+
+  <rect x="270" y="295" width="220" height="64" rx="6" fill="#ddf4ff"/>
+  <text x="284" y="317" font-size="12" fill="#24292f">IA de visão</text>
+  <text x="284" y="333" font-size="11" fill="#57606a">prompt pronto em</text>
+  <text x="284" y="349" font-size="11" fill="#57606a">docs/ESPECIFICACAO-MAPA-IA.md</text>
+
+  <line x1="498" y1="327" x2="538" y2="327" stroke="#0969da" stroke-width="2"/>
+  <polygon points="538,321 552,327 538,333" fill="#0969da"/>
+
+  <rect x="560" y="295" width="140" height="64" rx="6" fill="#ddf4ff"/>
+  <text x="574" y="321" font-size="12" fill="#24292f">world.json</text>
+  <text x="574" y="337" font-size="11" fill="#57606a">revisar na mão</text>
+
+  <line x1="708" y1="327" x2="748" y2="327" stroke="#0969da" stroke-width="2"/>
+  <polygon points="748,321 762,327 748,333" fill="#0969da"/>
+
+  <rect x="770" y="295" width="100" height="64" rx="6" fill="#ddf4ff"/>
+  <text x="784" y="321" font-size="12" fill="#24292f">validate_</text>
+  <text x="784" y="337" font-size="12" fill="#24292f">world.py</text>
+
+  <text x="50" y="388" font-size="11" fill="#57606a">Para imagens grandes, corte em pedaços com sobreposição de um tile e peça a análise em partes.</text>
+
+  <!-- Nota -->
+  <rect x="30" y="428" width="860" height="30" rx="6" fill="#fff8c5" stroke="#d4a72c"/>
+  <text x="46" y="448" font-size="12" fill="#24292f">Sempre valide com validate_world.py: ele confere dimensões, IDs existentes e se o spawn cai em célula andável.</text>
+</svg>

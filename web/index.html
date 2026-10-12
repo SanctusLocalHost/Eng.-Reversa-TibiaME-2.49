@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 6 L88 20 V48 C88 72 72 88 50 94 C28 88 12 72 12 48 V20 Z' fill='%23d9c37a' stroke='%231a1a2e' stroke-width='4'/><path d='M50 22 V78 M28 46 H72' stroke='%231a1a2e' stroke-width='7' stroke-linecap='round'/></svg>">
   <title>MUNDO DE BATALHA — PWA Offline</title>
   <link rel="stylesheet" href="./css/style.css">
   <style>
@@ -35,12 +35,12 @@
 
   <!-- Overlay: selecionar a pasta do jogo -->
   <div id="fs-overlay">
-    <h2>⚔️ MUNDO DE BATALHA</h2>
+    <h2>MUNDO DE BATALHA</h2>
     <p>PWA 100% offline — sem servidor.</p>
 
-    <button id="fs-btn" class="fs-btn">📁 Escolher Pasta do Jogo</button>
+    <button id="fs-btn" class="fs-btn">Escolher Pasta do Jogo</button>
 
-    <button id="files-btn" class="fs-btn alt">📂 Selecionar pasta (modo compatível)</button>
+    <button id="files-btn" class="fs-btn alt">Selecionar pasta (modo compatível)</button>
     <input id="files-input" type="file" webkitdirectory directory multiple style="display:none">
 
     <div id="fs-hint">Aguardando seleção da pasta…</div>
@@ -91,7 +91,7 @@
           GAME_ROOT = null;
           showOverlayError('Pasta inválida: não encontrei pack1, pack2, … Selecione a pasta que contém os packs.');
           btnFS.disabled = false;
-          btnFS.textContent = '📁 Escolher Pasta do Jogo';
+          btnFS.textContent = 'Escolher Pasta do Jogo';
           return;
         }
         if ('storage' in navigator && navigator.storage.persist) {
@@ -101,7 +101,7 @@
       } catch (e) {
         if (e.name === 'AbortError') {
           btnFS.disabled = false;
-          btnFS.textContent = '📁 Escolher Pasta do Jogo';
+          btnFS.textContent = 'Escolher Pasta do Jogo';
           return;
         }
         // Brave às vezes expõe a API mas bloqueia: cai no modo compatível

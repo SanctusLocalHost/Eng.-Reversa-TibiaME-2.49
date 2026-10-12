@@ -1,13 +1,13 @@
 {
   "name": "MUNDO DE BATALHA",
   "short_name": "MdB",
-  "description": "TibiaME Engine Offline - PWA",
+  "description": "Tibia Micro Edition Engine Offline - PWA",
   "start_url": ".",
   "display": "fullscreen",
   "background_color": "#000000",
   "theme_color": "#1a1a2e",
   "icons": [
-    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 6 L88 20 V48 C88 72 72 88 50 94 C28 88 12 72 12 48 V20 Z' fill='%23d9c37a' stroke='%231a1a2e' stroke-width='4'/><path d='M50 22 V78 M28 46 H72' stroke='%231a1a2e' stroke-width='7' stroke-linecap='round'/></svg>", "sizes": "any", "type": "image/svg+xml" }
   ],
   "orientation": "portrait-primary"
 }

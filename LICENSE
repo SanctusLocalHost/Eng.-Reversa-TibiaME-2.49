@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Eng. Reversa TibiaME contributors
+Copyright (c) 2026 Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
----
-
-EXCEÇÃO / EXCLUSÃO DE RESPONSABILIDADE SOBRE ASSETS DE TERCEIROS:
-
-Os assets do jogo TibiaME (sprites, texturas, áudio, textos, dados de
-configuração e quaisquer arquivos extraídos do cliente oficial) são
-propriedade exclusiva da CipSoft GmbH ("Game Assets"). A licença MIT acima
-aplica-se SOMENTE ao código-fonte, documentação e ferramentas originais
-deste repositório. Nenhum Game Asset é licenciado, incluído ou distribuído
-por este projeto. Os usuários devem obter seus próprios assets através do
-cliente oficial e usá-los conforme os termos da CipSoft.
-
-"TibiaME" e "Tibia" são marcas registradas da CipSoft GmbH. Este projeto
-não é afiliado, patrocinado ou endossado pela CipSoft.
+Nota: os arquivos do jogo (sprites, sons, textos e dados extraídos do
+aplicativo) não fazem parte deste repositório e não são cobertos por esta
+licença. Eles permanecem de propriedade dos seus respectivos donos. Use os
+seus próprios arquivos instalados.

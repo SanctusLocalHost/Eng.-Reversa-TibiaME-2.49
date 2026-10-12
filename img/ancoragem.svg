@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect width="920" height="420" fill="#f6f8fa"/>
+  <text x="30" y="44" font-size="20" font-weight="700" fill="#24292f">Ancoragem dos sprites na célula de 63 x 63 px</text>
+
+  <!-- Célula 1: chão -->
+  <g transform="translate(40,80)">
+    <rect width="180" height="180" fill="#ffffff" stroke="#8b949e"/>
+    <g stroke="#d0d7de">
+      <line x1="63" y1="0" x2="63" y2="180"/><line x1="126" y1="0" x2="126" y2="180"/>
+      <line x1="0" y1="63" x2="180" y2="63"/><line x1="0" y1="126" x2="180" y2="126"/>
+    </g>
+    <rect x="0" y="0" width="180" height="180" fill="#2da44e" opacity="0.35"/>
+    <text x="8" y="24" font-size="12" fill="#1a7f37" font-weight="700">chão 63x63</text>
+    <text x="8" y="172" font-size="12" fill="#1a7f37">offset 0,0</text>
+  </g>
+  <text x="40" y="290" font-size="13" fill="#24292f" font-weight="700">Chão</text>
+  <text x="40" y="310" font-size="12" fill="#57606a">preenche a célula inteira</text>
+  <text x="40" y="327" font-size="12" fill="#57606a">o.x + w/2 = 31,5</text>
+  <text x="40" y="344" font-size="12" fill="#57606a">o.y + h = 63</text>
+
+  <!-- Célula 2: objeto -->
+  <g transform="translate(300,80)">
+    <rect width="180" height="180" fill="#ffffff" stroke="#8b949e"/>
+    <g stroke="#d0d7de">
+      <line x1="63" y1="0" x2="63" y2="180"/><line x1="126" y1="0" x2="126" y2="180"/>
+      <line x1="0" y1="63" x2="180" y2="63"/><line x1="0" y1="126" x2="180" y2="126"/>
+    </g>
+    <rect x="6" y="6" width="168" height="168" fill="#0969da" opacity="0.30"/>
+    <text x="66" y="90" font-size="12" fill="#0550ae">objeto 59x59</text>
+    <text x="66" y="106" font-size="11" fill="#0550ae">offset 2,2</text>
+    <line x1="90" y1="174" x2="90" y2="184" stroke="#cf222e" stroke-width="2"/>
+    <text x="96" y="192" font-size="10" fill="#cf222e">base = fim da célula</text>
+  </g>
+  <text x="300" y="290" font-size="13" fill="#24292f" font-weight="700">Objeto ou item</text>
+  <text x="300" y="310" font-size="12" fill="#57606a">fica centralizado e apoiado embaixo</text>
+  <text x="300" y="327" font-size="12" fill="#57606a">2 + 29,5 = 31,5 (eixo x)</text>
+  <text x="300" y="344" font-size="12" fill="#57606a">2 + 59 = 61 (quase a base)</text>
+
+  <!-- Célula 3: criatura -->
+  <g transform="translate(560,80)">
+    <rect width="180" height="180" fill="#ffffff" stroke="#8b949e"/>
+    <g stroke="#d0d7de">
+      <line x1="63" y1="0" x2="63" y2="180"/><line x1="126" y1="0" x2="126" y2="180"/>
+      <line x1="0" y1="63" x2="180" y2="63"/><line x1="0" y1="126" x2="180" y2="126"/>
+    </g>
+    <rect x="54" y="0" width="72" height="180" fill="#bf3989" opacity="0.30"/>
+    <rect x="54" y="0" width="72" height="8" fill="#bf3989" opacity="0.6"/>
+    <text x="8" y="24" font-size="12" fill="#a40e5c">criatura 27x62</text>
+    <text x="8" y="40" font-size="11" fill="#a40e5c">offset 19,0</text>
+    <line x1="90" y1="12" x2="90" y2="2" stroke="#cf222e" stroke-width="2"/>
+  </g>
+  <text x="560" y="290" font-size="13" fill="#24292f" font-weight="700">Criatura</text>
+  <text x="560" y="310" font-size="12" fill="#57606a">pés na base da célula, corpo pra cima</text>
+  <text x="560" y="327" font-size="12" fill="#57606a">19 + 13,5 = 32,5</text>
+  <text x="560" y="344" font-size="12" fill="#57606a">0 + 62 = 62</text>
+
+  <!-- Fórmula geral -->
+  <rect x="790" y="80" width="100" height="180" rx="8" fill="#ddf4ff" stroke="#0969da"/>
+  <text x="806" y="116" font-size="12" font-weight="700" fill="#0550ae">Regra geral</text>
+  <text x="806" y="146" font-size="11" fill="#24292f">desenha em</text>
+  <text x="806" y="166" font-size="11" fill="#24292f">x = tile*63</text>
+  <text x="806" y="182" font-size="11" fill="#24292f">      + o.x</text>
+  <text x="806" y="204" font-size="11" fill="#24292f">y = tile*63</text>
+  <text x="806" y="220" font-size="11" fill="#24292f">      + o.y</text>
+  <text x="806" y="246" font-size="10" fill="#57606a">vale para os</text>
+  <text x="806" y="258" font-size="10" fill="#57606a">12.238 sprites</text>
+
+  <!-- Nota -->
+  <rect x="40" y="370" width="850" height="34" rx="6" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="56" y="392" font-size="13" fill="#24292f">Essa convenção foi confirmada em 12.238 sprites: centro horizontal e pés apoiados na base da célula.</text>
+</svg>

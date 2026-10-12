@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect width="920" height="430" fill="#f6f8fa"/>
+  <text x="30" y="44" font-size="20" font-weight="700" fill="#24292f">Personagens: camadas coloridas e sequências de animação</text>
+
+  <!-- Camadas -->
+  <text x="40" y="86" font-size="14" font-weight="700" fill="#24292f">Montagem por camadas</text>
+  <g>
+    <rect x="40" y="105" width="200" height="34" rx="5" fill="#cf222e" opacity="0.75"/>
+    <text x="52" y="127" font-size="12" fill="#ffffff">camada 1 - corpo (tint A)</text>
+    <rect x="40" y="145" width="200" height="34" rx="5" fill="#0969da" opacity="0.75"/>
+    <text x="52" y="167" font-size="12" fill="#ffffff">camada 2 - pernas (tint B)</text>
+    <rect x="40" y="185" width="200" height="34" rx="5" fill="#6f42c1" opacity="0.75"/>
+    <text x="52" y="207" font-size="12" fill="#ffffff">camada 3 - botas (tint C)</text>
+    <rect x="40" y="225" width="200" height="34" rx="5" fill="#d4a72c" opacity="0.85"/>
+    <text x="52" y="247" font-size="12" fill="#24292f">camada 4 - cabelo (tint D)</text>
+  </g>
+  <line x1="252" y1="182" x2="300" y2="182" stroke="#57606a" stroke-width="2"/>
+  <polygon points="300,176 314,182 300,188" fill="#57606a"/>
+  <rect x="322" y="122" width="120" height="120" rx="8" fill="#ffffff" stroke="#8b949e"/>
+  <rect x="352" y="142" width="60" height="80" rx="6" fill="#8b949e" opacity="0.35"/>
+  <text x="344" y="238" font-size="11" fill="#57606a">personagem pronto</text>
+  <text x="330" y="110" font-size="11" fill="#57606a">todas as camadas usam a mesma âncora (63 px)</text>
+
+  <rect x="470" y="105" width="410" height="154" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="486" y="130" font-size="13" font-weight="700" fill="#24292f">Como o tint funciona</text>
+  <text x="486" y="154" font-size="12" fill="#57606a">Os sprites .2 do atlas são em tons de cinza (luminância + alfa).</text>
+  <text x="486" y="174" font-size="12" fill="#57606a">O motor multiplica cada pixel pela cor escolhida:</text>
+  <text x="486" y="200" font-size="13" fill="#0550ae" font-family="ui-monospace, Consolas, monospace">cor_final = tint x luminancia</text>
+  <text x="486" y="224" font-size="12" fill="#57606a">A string de outfit no settings.xml guarda as peças e as cores,</text>
+  <text x="486" y="242" font-size="12" fill="#57606a">por exemplo c=71,221,198,255;208,223,238,255;...</text>
+
+  <!-- Animação -->
+  <text x="40" y="300" font-size="14" font-weight="700" fill="#24292f">Ciclo de animação (frames são IDs de sprite em sequência)</text>
+  <g>
+    <rect x="40" y="318" width="70" height="70" rx="6" fill="#dafbe1" stroke="#1a7f37"/>
+    <text x="58" y="358" font-size="13" fill="#24292f">570</text>
+    <rect x="126" y="318" width="70" height="70" rx="6" fill="#dafbe1" stroke="#1a7f37"/>
+    <text x="144" y="358" font-size="13" fill="#24292f">571</text>
+    <rect x="212" y="318" width="70" height="70" rx="6" fill="#dafbe1" stroke="#1a7f37"/>
+    <text x="230" y="358" font-size="13" fill="#24292f">572</text>
+    <rect x="298" y="318" width="70" height="70" rx="6" fill="#dafbe1" stroke="#1a7f37"/>
+    <text x="316" y="358" font-size="13" fill="#24292f">573</text>
+    <text x="382" y="358" font-size="16" fill="#57606a">...</text>
+    <line x1="60" y1="404" x2="350" y2="404" stroke="#1a7f37" stroke-width="2"/>
+    <polygon points="350,398 364,404 350,410" fill="#1a7f37"/>
+    <text x="150" y="422" font-size="11" fill="#57606a">avança um frame a cada passo da caminhada</text>
+  </g>
+
+  <rect x="470" y="300" width="410" height="100" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="486" y="326" font-size="13" font-weight="700" fill="#24292f">Encontrando as sequências</text>
+  <text x="486" y="350" font-size="12" fill="#57606a">python3 web/tools/find_animation_sets.py --pack 20</text>
+  <text x="486" y="372" font-size="12" fill="#57606a">agrupa por tamanho e âncora iguais e mostra os IDs</text>
+  <text x="486" y="390" font-size="12" fill="#57606a">vizinhos - os candidatos a frames da mesma criatura.</text>
+</svg>

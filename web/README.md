@@ -1,20 +1,20 @@
 # MUNDO DE BATALHA — PWA 100% Offline
 
-Reimplementação em navegador do motor do cliente TibiaME v2.49 (CipSoft GmbH),
+Reimplementação em navegador do motor do cliente Tibia Micro Edition 2.49,
 usando os assets extraídos localmente. **Sem internet, sem servidor.**
 
-> ⚠️ Assets (sprites, sons, textos) são © CipSoft GmbH. Este projeto é para
-> uso pessoal/educacional com os seus próprios arquivos extraídos.
+> Os assets (sprites, sons, textos) pertencem aos seus respectivos donos.
+> Este projeto apenas consome os arquivos que você já tem instalados.
 
 ---
 
-## 🚀 Como rodar (escolha UMA opção)
+## Como rodar (escolha UMA opção)
 
 ### Opção A — PWA (recomendado): só dar duplo clique, SEM servidor
 1. Abra `web/index.html` (duplo clique).
-2. Clique em **"📁 Escolher Pasta do Jogo"** (Chrome/Edge).
-   • **Brave, Firefox ou Safari:** use **"📂 Selecionar pasta (modo compatível)"** —
-   o Brave bloqueia a API de pastas por padrão; o modo compatível funciona em todos.
+2. Clique em **"Escolher Pasta do Jogo"** (Chrome/Edge).
+ • **Brave, Firefox ou Safari:** use **"Selecionar pasta (modo compatível)"** —
+ o Brave bloqueia a API de pastas por padrão; o modo compatível funciona em todos.
 3. Selecione a pasta **MUNDO DE BATALHA** (a que contém `pack1`, `pack2`, …).
 4. Pronto — o jogo carrega e roda 100% offline direto do disco.
 
@@ -35,7 +35,7 @@ python3 server.py            # http://localhost:8000
 
 ---
 
-## 🎮 Controles
+## Controles
 
 | Entrada | Ação |
 |---|---|
@@ -48,7 +48,7 @@ python3 server.py            # http://localhost:8000
 
 ---
 
-## 🗺️ Criar mapas
+## Criar mapas
 
 ### Feitos à mão — `web/data/world.json`
 ```jsonc
@@ -84,15 +84,15 @@ Mapa pronto de exemplo (10×9 gerado por IA): `web/data/world-aurea.json`
 
 ---
 
-## 📁 Estrutura
+## Estrutura
 
 ```
 web/
   index.html            PWA shell (overlay de seleção de pasta)
   manifest.json         PWA manifest
   sw.js                 Service Worker (cache offline p/ modo http)
-  bundle.js             ⚙️ GERADO (jogo completo, script clássico)
-  bundle-core.js        ⚙️ GERADO (núcleo p/ ferramentas)
+  bundle.js             GERADO (jogo completo, script clássico)
+  bundle-core.js        GERADO (núcleo p/ ferramentas)
   css/style.css
   js/                   fontes dos módulos (para desenvolvimento)
     loader.js           File System API + fetch + sanitize XML
@@ -108,20 +108,20 @@ web/
   tools/validate_world.py  validador de world.json contra os atlases
 ```
 
-## 🔧 Desenvolvimento
+## Desenvolvimento
 
 Editou algo em `web/js/`? Regenere os bundles:
 ```bash
 python3 build-bundle.py     # gera bundle.js e bundle-core.js
 ```
 
-## ✅ Implementado vs. original
+## Implementado vs. original
 
-✅ Atlas/offset/ancoragem 63px · zoom 100/125/150/175 · pintor por base
-✅ UI 9grid/dock/align/anchor/templates · XLIFF pt · music/soundfx.xml
-✅ Tint de sprites LA · caminhada tile-a-tile · tap-to-move · joystick
-✅ PWA: roda do disco (file://) sem servidor · Service Worker p/ modo http
+- Atlas/offset/ancoragem 63px, zoom 100/125/150/175, pintor por base
+- UI 9grid/dock/align/anchor/templates, XLIFF pt, music/soundfx.xml
+- Tint de sprites LA, caminhada tile-a-tile, tap-to-move, joystick
+- PWA: roda do disco (file://) sem servidor; Service Worker no modo http
 
-🚧 Futuro (roadmap em `../docs/RELATORIO-ARQUITETURA.md`):
+Em falta (roadmap em `../RELATORIO-ARQUITETURA.md`):
 animações de criaturas, outfits completos, editor visual de mapas,
 mais formulários do ui_base.xml, ciclo dia/noite.

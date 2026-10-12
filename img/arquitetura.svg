@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect width="920" height="430" fill="#f6f8fa"/>
+  <text x="30" y="44" font-size="20" font-weight="700" fill="#24292f">Arquitetura do jogo (visão geral)</text>
+
+  <!-- Cliente -->
+  <rect x="30" y="70" width="360" height="250" rx="10" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+  <text x="50" y="100" font-size="15" font-weight="700" fill="#0969da">O que roda do seu lado</text>
+  <rect x="50" y="118" width="320" height="44" rx="6" fill="#ddf4ff"/>
+  <text x="66" y="139" font-size="13" fill="#24292f">engine web em JavaScript (este repositório)</text>
+  <text x="66" y="155" font-size="12" fill="#57606a">render, UI, áudio, movimentação</text>
+  <rect x="50" y="172" width="320" height="58" rx="6" fill="#ddf4ff"/>
+  <text x="66" y="193" font-size="13" fill="#24292f">packs locais (1 a 30)</text>
+  <text x="66" y="209" font-size="12" fill="#57606a">sprites, interface, áudio e textos</text>
+  <text x="66" y="224" font-size="12" fill="#57606a">baixados pelo aplicativo no aparelho</text>
+  <rect x="50" y="240" width="320" height="44" rx="6" fill="#ddf4ff"/>
+  <text x="66" y="261" font-size="13" fill="#24292f">world.json</text>
+  <text x="66" y="277" font-size="12" fill="#57606a">os mapas que você cria ou converte</text>
+
+  <!-- Protocolo -->
+  <line x1="410" y1="195" x2="510" y2="195" stroke="#57606a" stroke-width="2" stroke-dasharray="6 4"/>
+  <polygon points="510,189 524,195 510,201" fill="#57606a"/>
+  <text x="412" y="180" font-size="12" fill="#57606a">protocolo binário TCP</text>
+  <text x="412" y="220" font-size="11" fill="#8b949e">(só existe no jogo online)</text>
+
+  <!-- Servidor -->
+  <rect x="530" y="70" width="360" height="250" rx="10" fill="#ffffff" stroke="#8b949e" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="550" y="100" font-size="15" font-weight="700" fill="#57606a">Servidor do jogo</text>
+  <rect x="550" y="118" width="320" height="110" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="566" y="140" font-size="13" fill="#24292f">mapas, spawns, quests, NPCs</text>
+  <text x="566" y="160" font-size="12" fill="#57606a">o mundo completo vive aqui.</text>
+  <text x="566" y="178" font-size="12" fill="#57606a">o cliente recebe apenas</text>
+  <text x="566" y="194" font-size="12" fill="#57606a">IDs de sprite e posições.</text>
+  <text x="566" y="216" font-size="12" fill="#8b949e">por isso os packs não contêm mapas.</text>
+
+  <!-- Nota -->
+  <rect x="30" y="345" width="860" height="60" rx="8" fill="#fff8c5" stroke="#d4a72c"/>
+  <text x="50" y="370" font-size="13" fill="#24292f">Offline: o mapa vem do world.json, criado por você (edição à mão, conversor de minimapa ou IA de visão).</text>
+  <text x="50" y="390" font-size="13" fill="#24292f">Online: o servidor envia o estado do mundo em tempo real; os assets locais só dizem como desenhar cada ID.</text>
+</svg>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 minimap_to_world.py — Converte um MINIMAPA colorido (imagem reduzida, sem sprites)
-em world.json para o MUNDO DE BATALHA (mecanismo TibiaME).
+em world.json para o MUNDO DE BATALHA (mecanismo Tibia Micro Edition).
 
 Por que não usar IA para isso? Um minimapa real tem ~200×200 tiles = 40.000+
 números — nenhuma IA de texto consegue devolver isso com precisão. Este script
@@ -90,7 +90,7 @@ def detect_cell(img):
         multiples = sum(n for l, n in runs.items() if l % cell == 0)
         if total and multiples / total > 0.72:
             return cell
-    return 3  # padrão para minimapas TibiaME
+    return 3  # padrão para minimapas Tibia Micro Edition
 
 
 def sample_cell(img, cx, cy, cell):
@@ -123,7 +123,7 @@ def smooth_grid(grid, w, h):
 
 
 def main():
-    ap = argparse.ArgumentParser(description='Minimapa colorido → world.json (TibiaME)')
+    ap = argparse.ArgumentParser(description='Minimapa colorido → world.json (Tibia Micro Edition)')
     ap.add_argument('image')
     ap.add_argument('--cell', type=int, default=None, help='pixels por tile')
     ap.add_argument('--auto', action='store_true', help='detectar célula automaticamente')
@@ -136,7 +136,7 @@ def main():
     args = ap.parse_args()
 
     if not os.path.exists(args.image):
-        print(f'✗ Imagem não encontrada: {args.image}')
+        print(f'[erro] Imagem não encontrada: {args.image}')
         sys.exit(1)
 
     img = Image.open(args.image).convert('RGB')
@@ -146,7 +146,7 @@ def main():
     modo = '--auto' if args.auto else '--cell'
     print(f'Imagem: {W}×{H} px | célula: {cell}px ({modo}) → grid {gw}×{gh} tiles')
     if gw * gh < 4:
-        print('✗ Grid muito pequeno. Verifique o tamanho da célula (tente --cell 1).')
+        print('[erro] Grid muito pequeno. Verifique o tamanho da célula (tente --cell 1).')
         sys.exit(1)
 
     # 1) amostra + classifica
@@ -197,7 +197,7 @@ def main():
                         best_d = d
                         sx, sy = gx, gy
         if sx is None:
-            print('✗ Nenhuma célula andável encontrada! Ajuste a paleta às cores do seu minimapa.')
+            print('[erro] Nenhuma célula andável encontrada! Ajuste a paleta às cores do seu minimapa.')
             sys.exit(1)
 
     world = {
@@ -217,7 +217,7 @@ def main():
     with open(out, 'w', encoding='utf-8') as f:
         json.dump(world, f, ensure_ascii=False, indent=1)
     counts = Counter(t for row in tiles for t in row)
-    print(f'✓ {out} gerado — {gw}×{gh} tiles, {len(objects)} objetos, spawn ({sx},{sy})')
+    print(f'[ok] {out} gerado — {gw}×{gh} tiles, {len(objects)} objetos, spawn ({sx},{sy})')
     print('  Tiles:', dict(counts.most_common()))
 
     # 5) preview de conferência
@@ -233,7 +233,7 @@ def main():
                     for x in range(gx * cell, (gx + 1) * cell):
                         ppx[x, y] = c
         pv.save(args.preview)
-        print(f'✓ Preview: {args.preview} (compare com o original!)')
+        print(f'[ok] Preview: {args.preview} (compare com o original!)')
 
     print(f'\nValide com:  python3 web/tools/validate_world.py {out}')
 

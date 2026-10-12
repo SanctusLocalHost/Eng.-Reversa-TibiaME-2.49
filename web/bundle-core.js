@@ -186,7 +186,7 @@ async function loadAudioBuffer(path, ctx) {
   throw new Error(`Áudio não encontrado: ${path} (${lastErr?.message || ''})`);
 }
 
-// Sanitiza XML com atributos duplicados (os dados reais do TibiaME têm)
+// Sanitiza XML com atributos duplicados (os dados reais do jogo têm)
 function sanitizeXML(text) {
   let t = text.replace(/^\uFEFF/, '');
   return t.replace(/<[^>]*>/g, (tag) => {

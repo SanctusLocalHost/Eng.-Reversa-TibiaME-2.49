@@ -41,7 +41,7 @@ def main():
         sys.exit(1)
     path = sys.argv[1]
     if not os.path.exists(path):
-        print(f'✗ Arquivo não encontrado: {path}')
+        print(f'[erro] Arquivo não encontrado: {path}')
         sys.exit(1)
 
     with open(path, encoding='utf-8') as f:
@@ -114,15 +114,15 @@ def main():
     print(f'Spawn: {spawn}')
 
     if warnings:
-        print(f'\n⚠ Avisos ({len(warnings)}):')
+        print(f'\nAtenção: Avisos ({len(warnings)}):')
         for msg in warnings[:10]:
             print('  -', msg)
     if errors:
-        print(f'\n✗ ERROS ({len(errors)}):')
+        print(f'\n[erro] ERROS ({len(errors)}):')
         for msg in errors[:20]:
             print('  -', msg)
         sys.exit(1)
-    print('\n✓ world.json VÁLIDO! Pode jogar: abra web/index.html (ou rode server.py).')
+    print('\n[ok] world.json VÁLIDO! Pode jogar: abra web/index.html (ou rode server.py).')
 
 
 if __name__ == '__main__':
